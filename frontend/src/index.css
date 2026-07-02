@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Fluid typography scaling */
+  html {
+    font-size: 14px; /* default on small mobile screens */
+  }
+  
+  @screen md {
+    html {
+      font-size: 15px; /* scale up slightly on tablets */
+    }
+  }
+
+  @screen lg {
+    html {
+      font-size: 16px; /* standard 16px on laptops/desktop */
+    }
+  }
+
+  body {
+    @apply bg-background text-secondary font-sans antialiased overflow-x-hidden w-full;
+    background-color: #f9f9ff;
+    color: #191c21;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold text-gray-900;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary-container px-4 py-2 rounded-xl transition-all shadow-sm shadow-blue-500/20 active:scale-95;
+    height: 44px;
+    border-radius: 12px;
+  }
+  
+  .btn-secondary {
+    @apply bg-transparent text-secondary border border-gray-300 hover:bg-gray-100 px-4 py-2 rounded-xl transition-all active:scale-95;
+    height: 44px;
+    border-radius: 12px;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-200;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-2 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all;
+  }
+
+  select.input-field {
+    @apply appearance-none cursor-pointer;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 1rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+  }
+  
+  .glass-nav {
+    @apply fixed top-0 left-0 right-0 z-50 bg-white/70 backdrop-blur-xl border-b border-gray-200/50;
+  }
+}
