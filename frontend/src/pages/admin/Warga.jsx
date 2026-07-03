@@ -263,7 +263,7 @@ const Warga = () => {
                         <span>{item.no_kk}</span>
                         {item.perlu_update_kk === 1 && (
                           <span className="bg-yellow-100 text-yellow-800 text-[10px] px-2 py-0.5 rounded-full font-medium w-fit border border-yellow-200" title="Usia KK sudah >= 5 Tahun, disarankan update">
-                            ⚠️ Update KK
+                            ⚠️ Memerlukan Pembaruan KK
                           </span>
                         )}
                       </div>
