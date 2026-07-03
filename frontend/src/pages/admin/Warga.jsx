@@ -27,7 +27,7 @@ const Warga = () => {
   const [currentId, setCurrentId] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
-    nik: '', no_kk: '', nama_lengkap: '', jenis_kelamin: 'L',
+    nik: '', no_kk: '', tahun_terbit_kk: '', nama_lengkap: '', jenis_kelamin: 'L',
     tempat_lahir: '', tanggal_lahir: '', agama: 'Islam',
     golongan_darah: 'A', status_perkawinan: 'Belum Kawin',
     status_hubungan_keluarga: 'Kepala Keluarga',
@@ -38,7 +38,7 @@ const Warga = () => {
     setIsEdit(false);
     setCurrentId(null);
     setFormData({
-      nik: '', no_kk: '', nama_lengkap: '', jenis_kelamin: 'L',
+      nik: '', no_kk: '', tahun_terbit_kk: '', nama_lengkap: '', jenis_kelamin: 'L',
       tempat_lahir: '', tanggal_lahir: '', agama: 'Islam',
       golongan_darah: 'A', status_perkawinan: 'Belum Kawin',
       status_hubungan_keluarga: 'Kepala Keluarga',
@@ -55,7 +55,7 @@ const Warga = () => {
     const localDate = new Date(dateObj.getTime() - (dateObj.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
     
     setFormData({
-      nik: item.nik, no_kk: item.no_kk, nama_lengkap: item.nama_lengkap,
+      nik: item.nik, no_kk: item.no_kk, tahun_terbit_kk: item.tahun_terbit_kk || '', nama_lengkap: item.nama_lengkap,
       jenis_kelamin: item.jenis_kelamin, tempat_lahir: item.tempat_lahir,
       tanggal_lahir: localDate, agama: item.agama,
       golongan_darah: item.golongan_darah, status_perkawinan: item.status_perkawinan,
@@ -258,7 +258,16 @@ const Warga = () => {
               <tbody>
                 {currentItems.map((item) => (
                   <tr key={item.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-                    <td className="py-4 px-4 text-gray-900">{item.no_kk}</td>
+                    <td className="py-4 px-4 text-gray-900">
+                      <div className="flex flex-col gap-1">
+                        <span>{item.no_kk}</span>
+                        {item.perlu_update_kk === 1 && (
+                          <span className="bg-yellow-100 text-yellow-800 text-[10px] px-2 py-0.5 rounded-full font-medium w-fit border border-yellow-200" title="Usia KK sudah >= 5 Tahun, disarankan update">
+                            ⚠️ Update KK
+                          </span>
+                        )}
+                      </div>
+                    </td>
                     <td className="py-4 px-4 text-gray-900">{item.nik}</td>
                     <td className="py-4 px-4 text-gray-900 font-medium">{item.nama_lengkap}</td>
                     <td className="py-4 px-4 text-gray-900">{item.jenis_kelamin}</td>
@@ -329,6 +338,10 @@ const Warga = () => {
               <input type="text" name="no_kk" value={formData.no_kk} onChange={handleInputChange} className="input-field" required maxLength="16" />
             </div>
             <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Tahun Terbit KK</label>
+              <input type="number" name="tahun_terbit_kk" value={formData.tahun_terbit_kk} onChange={handleInputChange} className="input-field" min="1900" max={new Date().getFullYear()} placeholder="Contoh: 2019" />
+            </div>
+            <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-1">NIK</label>
               <input type="text" name="nik" value={formData.nik} onChange={handleInputChange} className="input-field" required maxLength="16" />
             </div>

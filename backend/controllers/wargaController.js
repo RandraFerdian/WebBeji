@@ -6,7 +6,7 @@ const getWarga = async (req, res) => {
         const { search, page = 1, limit = 10 } = req.query;
         const offset = (page - 1) * limit;
 
-        let query = 'SELECT * FROM warga';
+        let query = 'SELECT *, (YEAR(CURDATE()) - tahun_terbit_kk) >= 5 AS perlu_update_kk FROM warga';
         const queryParams = [];
 
         if (search) {
@@ -73,14 +73,14 @@ const createWarga = async (req, res) => {
 
         const query = `
             INSERT INTO warga (
-                nik, no_kk, nama_lengkap, jenis_kelamin, tempat_lahir, tanggal_lahir, 
+                nik, no_kk, tahun_terbit_kk, nama_lengkap, jenis_kelamin, tempat_lahir, tanggal_lahir, 
                 agama, pendidikan_id, pekerjaan_id, golongan_darah, status_perkawinan, 
                 status_hubungan_keluarga
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
         
         const params = [
-            data.nik, data.no_kk, data.nama_lengkap, data.jenis_kelamin, 
+            data.nik, data.no_kk, data.tahun_terbit_kk || null, data.nama_lengkap, data.jenis_kelamin, 
             data.tempat_lahir, data.tanggal_lahir, data.agama, 
             final_pendidikan_id || null, final_pekerjaan_id || null, 
             data.golongan_darah || null, data.status_perkawinan, data.status_hubungan_keluarga
@@ -133,7 +133,7 @@ const updateWarga = async (req, res) => {
 
         const query = `
             UPDATE warga SET 
-                nik = ?, no_kk = ?, nama_lengkap = ?, jenis_kelamin = ?, 
+                nik = ?, no_kk = ?, tahun_terbit_kk = ?, nama_lengkap = ?, jenis_kelamin = ?, 
                 tempat_lahir = ?, tanggal_lahir = ?, agama = ?, 
                 pendidikan_id = ?, pekerjaan_id = ?, golongan_darah = ?, 
                 status_perkawinan = ?, status_hubungan_keluarga = ?
@@ -141,7 +141,7 @@ const updateWarga = async (req, res) => {
         `;
         
         const params = [
-            data.nik, data.no_kk, data.nama_lengkap, data.jenis_kelamin, 
+            data.nik, data.no_kk, data.tahun_terbit_kk || null, data.nama_lengkap, data.jenis_kelamin, 
             data.tempat_lahir, data.tanggal_lahir, data.agama, 
             final_pendidikan_id || null, final_pekerjaan_id || null, 
             data.golongan_darah || null, data.status_perkawinan, data.status_hubungan_keluarga,
