@@ -76,7 +76,7 @@ const PengaturanAdmin = () => {
   return (
     <div className="space-y-6 max-w-4xl">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Profil Dusun</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Profil Dukuh</h1>
         <p className="text-gray-600">Kelola informasi Visi dan Misi yang akan ditampilkan di halaman utama website.</p>
       </div>
 
@@ -84,19 +84,19 @@ const PengaturanAdmin = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
           
           <div>
-            <label className="block text-sm font-bold text-gray-900 mb-2">Visi Dusun Beji</label>
+            <label className="block text-sm font-bold text-gray-900 mb-2">Visi Dukuh Beji</label>
             <textarea 
               name="visi" 
               value={formData.visi} 
               onChange={handleInputChange} 
               className="input-field min-h-[100px] text-gray-800" 
-              placeholder="Contoh: Mewujudkan Dusun Beji yang mandiri, sejahtera, dan berbudaya..."
+              placeholder="Contoh: Mewujudkan Dukuh Beji yang mandiri, sejahtera, dan berbudaya..."
             />
-            <p className="text-xs text-gray-500 mt-2">Visi adalah tujuan utama atau cita-cita jangka panjang dusun.</p>
+            <p className="text-xs text-gray-500 mt-2">Visi adalah tujuan utama atau cita-cita jangka panjang dukuh.</p>
           </div>
 
           <div>
-            <label className="block text-sm font-bold text-gray-900 mb-2">Misi Dusun Beji</label>
+            <label className="block text-sm font-bold text-gray-900 mb-2">Misi Dukuh Beji</label>
             <textarea 
               name="misi" 
               value={formData.misi} 

@@ -42,8 +42,9 @@ const AdminLayout = () => {
       
       {/* Mobile Top Bar */}
       <div className="md:hidden flex items-center justify-between bg-white border-b border-gray-200 px-4 py-3 z-50">
-        <Link to="/" className="text-lg font-bold text-gray-900 tracking-tight">
-          Beji<span className="text-primary">Admin</span>
+        <Link to="/" className="text-lg font-bold text-gray-900 tracking-tight flex items-center gap-2">
+          <img src="/logoBeji.svg" alt="Logo Dukuh Beji" className="w-8 h-8" />
+          <span>Beji<span className="text-primary">Admin</span></span>
         </Link>
         <button 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -68,8 +69,9 @@ const AdminLayout = () => {
       `}
       >
         <div className="hidden md:block p-6 border-b border-gray-100">
-          <Link to="/" className="text-xl font-bold text-gray-900 tracking-tight">
-            Beji<span className="text-primary">Admin</span>
+          <Link to="/" className="text-xl font-bold text-gray-900 tracking-tight flex items-center gap-2">
+            <img src="/logoBeji.svg" alt="Logo Dukuh Beji" className="w-8 h-8" />
+            <span>Beji<span className="text-primary">Admin</span></span>
           </Link>
         </div>
         

@@ -126,7 +126,7 @@ const PerangkatAdmin = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Aparatur Desa</h1>
-          <p className="text-gray-600">Kelola profil struktur organisasi pemerintah Dusun Beji.</p>
+          <p className="text-gray-600">Kelola profil struktur organisasi pemerintah Dukuh Beji.</p>
         </div>
         <button onClick={openAddModal} className="btn-primary flex items-center gap-2">
           <Plus size={18} />
@@ -193,7 +193,7 @@ const PerangkatAdmin = () => {
               onChange={handleInputChange} 
               className="input-field" 
               required 
-              placeholder="Contoh: Kepala Dusun"
+              placeholder="Contoh: Kepala Dukuh"
             />
           </div>
           <div>

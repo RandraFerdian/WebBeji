@@ -20,8 +20,9 @@ const Navbar = () => {
     <nav className="glass-nav">
       <div className="max-w-[1440px] mx-auto px-4 md:px-12 flex justify-between items-center h-16">
         <div className="flex items-center gap-2">
-          <Link to="/" className="text-xl font-bold text-gray-900 tracking-tight">
-            Beji<span className="text-primary">Kadus2</span>
+          <Link to="/" className="text-xl font-bold text-gray-900 tracking-tight flex items-center gap-2">
+            <img src="/logoBeji.svg" alt="Logo Dukuh Beji" className="w-8 h-8" />
+            <span>Beji<span className="text-primary">Kadus2</span></span>
           </Link>
         </div>
 

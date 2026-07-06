@@ -207,7 +207,7 @@ const Warga = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Data Warga</h1>
-          <p className="text-gray-600">Kelola data kependudukan Dusun Beji Kadus 2.</p>
+          <p className="text-gray-600">Kelola data kependudukan Dukuh Beji Kadus 2.</p>
         </div>
         <button 
           onClick={openAddModal}

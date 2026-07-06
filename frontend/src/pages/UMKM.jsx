@@ -33,7 +33,7 @@ const UMKM = () => {
 
   const handleWhatsAppClick = (e, nomorWa, namaUsaha) => {
     e.stopPropagation();
-    const text = encodeURIComponent(`Halo, saya melihat usaha Anda (${namaUsaha}) di website Dusun Beji Kadus 2.`);
+    const text = encodeURIComponent(`Halo, saya melihat usaha Anda (${namaUsaha}) di website Dukuh Beji Kadus 2.`);
     let waNumber = nomorWa;
     if (waNumber.startsWith('0')) {
       waNumber = '62' + waNumber.substring(1);
@@ -51,7 +51,7 @@ const UMKM = () => {
       <div data-aos="fade-down" className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-12">
         <div>
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Katalog UMKM</h1>
-          <p className="text-gray-600 text-lg">Dukung pengusaha lokal Dusun Beji Kadus 2.</p>
+          <p className="text-gray-600 text-lg">Dukung pengusaha lokal Dukuh Beji Kadus 2.</p>
         </div>
         <div className="relative w-full md:w-72">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">

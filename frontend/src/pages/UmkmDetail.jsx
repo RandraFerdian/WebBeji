@@ -33,7 +33,7 @@ const UmkmDetail = () => {
 
   const handleWhatsAppClick = () => {
     if (!umkm) return;
-    const text = encodeURIComponent(`Halo, saya melihat profil usaha Anda (${umkm.nama_usaha}) di Website Dusun Beji Kadus 2. Saya ingin bertanya...`);
+    const text = encodeURIComponent(`Halo, saya melihat profil usaha Anda (${umkm.nama_usaha}) di Website Dukuh Beji Kadus 2. Saya ingin bertanya...`);
     let waNumber = umkm.nomor_wa;
     if (waNumber.startsWith('0')) {
       waNumber = '62' + waNumber.substring(1);
@@ -45,7 +45,7 @@ const UmkmDetail = () => {
     if (navigator.share) {
       navigator.share({
         title: umkm?.nama_usaha,
-        text: `Lihat profil UMKM ${umkm?.nama_usaha} di Dusun Beji Kadus 2!`,
+        text: `Lihat profil UMKM ${umkm?.nama_usaha} di Dukuh Beji Kadus 2!`,
         url: window.location.href,
       }).catch((err) => console.log('Share failed:', err));
     } else {

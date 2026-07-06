@@ -34,7 +34,7 @@ const Berita = () => {
     <div className="space-y-8">
       <div data-aos="fade-down" className="mb-12">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Portal Berita</h1>
-        <p className="text-gray-600 text-lg">Kabar terbaru dan pengumuman dari Dusun Beji Kadus 2.</p>
+        <p className="text-gray-600 text-lg">Kabar terbaru dan pengumuman dari Dukuh Beji Kadus 2.</p>
       </div>
 
       {isLoading ? (

@@ -31,7 +31,7 @@ const Peta = () => {
     <div className="space-y-8">
       <div data-aos="fade-down" className="mb-12">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Peta Wilayah</h1>
-        <p className="text-gray-600 text-lg">Visualisasi peta infrastruktur dan batas wilayah Dusun Beji Kadus 2.</p>
+        <p className="text-gray-600 text-lg">Visualisasi peta infrastruktur dan batas wilayah Dukuh Beji Kadus 2.</p>
       </div>
 
       {isLoading ? (

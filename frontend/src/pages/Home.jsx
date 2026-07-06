@@ -68,11 +68,11 @@ const Home = () => {
           
           <h1 data-aos="fade-up" data-aos-delay="200" className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900 mb-6 leading-tight">
             Selamat Datang di <br />
-            <span className="text-primary">Dusun Beji Kadus 2</span>
+            <span className="text-primary">Dukuh Beji Kadus 2</span>
           </h1>
           
           <p data-aos="fade-up" data-aos-delay="300" className="text-lg text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Menyajikan transparansi data kependudukan, peta wilayah dusun yang interaktif, serta mendukung penuh pemberdayaan ekonomi UMKM lokal.
+            Menyajikan transparansi data kependudukan, peta wilayah dukuh yang interaktif, serta mendukung penuh pemberdayaan ekonomi UMKM lokal.
           </p>
           
           <div data-aos="fade-up" data-aos-delay="400" className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -162,7 +162,7 @@ const Home = () => {
       <section data-aos="fade-up" className="relative z-20 max-w-6xl mx-auto px-4 pt-12 border-t border-gray-100">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-3">Layanan Informasi</h2>
-          <p className="text-gray-600">Akses cepat ke berbagai informasi penting di dusun kami.</p>
+          <p className="text-gray-600">Akses cepat ke berbagai informasi penting di dukuh kami.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -183,7 +183,7 @@ const Home = () => {
             <div className="w-12 h-12 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center mb-5">
               <MapIcon size={24} />
             </div>
-            <h3 className="text-lg font-bold mb-2 text-gray-900 group-hover:text-amber-600 transition-colors">Peta Dusun</h3>
+            <h3 className="text-lg font-bold mb-2 text-gray-900 group-hover:text-amber-600 transition-colors">Peta Dukuh</h3>
             <p className="text-gray-600 text-sm leading-relaxed mb-6 flex-grow">
               Visualisasi batas wilayah, letak fasilitas umum, dan jalan desa untuk mempermudah pencarian lokasi.
             </p>
@@ -198,7 +198,7 @@ const Home = () => {
             </div>
             <h3 className="text-lg font-bold mb-2 text-gray-900 group-hover:text-green-600 transition-colors">Katalog UMKM</h3>
             <p className="text-gray-600 text-sm leading-relaxed mb-6 flex-grow">
-              Mendukung pengusaha lokal dengan menampilkan produk, jasa, dan kontak langsung warga Dusun Beji.
+              Mendukung pengusaha lokal dengan menampilkan produk, jasa, dan kontak langsung warga Dukuh Beji.
             </p>
             <div className="flex items-center gap-2 text-green-600 font-medium text-sm">
               Cari UMKM <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
@@ -212,7 +212,7 @@ const Home = () => {
         <section data-aos="fade-up" className="max-w-6xl mx-auto px-4 pt-12 border-t border-gray-100">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-3">Aparatur Pemerintahan</h2>
-            <p className="text-gray-600">Mengenal lebih dekat struktur pemerintahan Dusun Beji Kadus 2.</p>
+            <p className="text-gray-600">Mengenal lebih dekat struktur pemerintahan Dukuh Beji Kadus 2.</p>
           </div>
           <div className="flex overflow-x-auto pb-8 snap-x snap-mandatory gap-6 no-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {perangkat.map(p => (
@@ -233,7 +233,7 @@ const Home = () => {
                     
                     {p.nomor_hp && (
                       <a 
-                        href={`https://wa.me/${p.nomor_hp.startsWith('0') ? '62' + p.nomor_hp.substring(1) : p.nomor_hp}?text=Halo%20Bapak/Ibu%20${encodeURIComponent(p.nama)},%20saya%20warga%20Dusun%20Beji%20ingin%20bertanya...`}
+                        href={`https://wa.me/${p.nomor_hp.startsWith('0') ? '62' + p.nomor_hp.substring(1) : p.nomor_hp}?text=Halo%20Bapak/Ibu%20${encodeURIComponent(p.nama)},%20saya%20warga%20Dukuh%20Beji%20ingin%20bertanya...`}
                         target="_blank"
                         rel="noreferrer"
                         className="mt-auto flex items-center justify-center gap-2 w-full py-2 bg-gray-50 border border-gray-200 text-gray-700 hover:bg-green-50 hover:text-green-600 hover:border-green-200 rounded-lg text-xs md:text-sm font-medium transition-colors"
@@ -258,7 +258,7 @@ const Home = () => {
               <Newspaper className="text-primary" size={24} />
               <h2 className="text-3xl font-bold text-gray-900">Kabar Terbaru</h2>
             </div>
-            <p className="text-gray-600">Berita dan pengumuman terkini seputar Dusun Beji Kadus 2.</p>
+            <p className="text-gray-600">Berita dan pengumuman terkini seputar Dukuh Beji Kadus 2.</p>
           </div>
           <Link to="/berita" className="btn-secondary flex items-center gap-2">
             Lihat Semua Berita <ArrowRight size={16} />
