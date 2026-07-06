@@ -81,7 +81,7 @@ const Warga = () => {
     setError(false);
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/warga?search=${searchTerm}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/warga?search=${searchTerm}&limit=10000`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (!res.ok) throw new Error('Gagal memuat data warga');
