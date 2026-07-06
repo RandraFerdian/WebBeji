@@ -58,7 +58,7 @@ const Warga = () => {
       nik: item.nik, no_kk: item.no_kk, tahun_terbit_kk: item.tahun_terbit_kk || '', nama_lengkap: item.nama_lengkap,
       jenis_kelamin: item.jenis_kelamin, tempat_lahir: item.tempat_lahir,
       tanggal_lahir: localDate, agama: item.agama,
-      golongan_darah: item.golongan_darah, status_perkawinan: item.status_perkawinan,
+      golongan_darah: item.golongan_darah || 'Tidak Diketahui', status_perkawinan: item.status_perkawinan,
       status_hubungan_keluarga: item.status_hubungan_keluarga,
       pendidikan_id: item.pendidikan_id || '', pekerjaan_id: item.pekerjaan_id || ''
     });
@@ -171,7 +171,7 @@ const Warga = () => {
         'Tempat Lahir': item.tempat_lahir,
         'Tanggal Lahir': new Date(item.tanggal_lahir).toLocaleDateString('id-ID'),
         'Agama': item.agama,
-        'Golongan Darah': item.golongan_darah || '-',
+        'Golongan Darah': item.golongan_darah || 'Tidak Tahu',
         'Status Perkawinan': item.status_perkawinan,
         'Hubungan Keluarga': item.status_hubungan_keluarga
       };
@@ -396,7 +396,7 @@ const Warga = () => {
                   {value: 'B', label: 'B'},
                   {value: 'AB', label: 'AB'},
                   {value: 'O', label: 'O'},
-                  {value: '', label: 'Tidak Tahu'}
+                  {value: 'Tidak Diketahui', label: 'Tidak Tahu'}
                 ]}
               />
             </div>

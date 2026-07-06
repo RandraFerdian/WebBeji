@@ -83,7 +83,7 @@ const createWarga = async (req, res) => {
             data.nik, data.no_kk, data.tahun_terbit_kk || null, data.nama_lengkap, data.jenis_kelamin, 
             data.tempat_lahir, data.tanggal_lahir, data.agama, 
             final_pendidikan_id || null, final_pekerjaan_id || null, 
-            data.golongan_darah || null, data.status_perkawinan, data.status_hubungan_keluarga
+            data.golongan_darah || 'Tidak Diketahui', data.status_perkawinan, data.status_hubungan_keluarga
         ];
 
         const [result] = await pool.query(query, params);
@@ -144,7 +144,7 @@ const updateWarga = async (req, res) => {
             data.nik, data.no_kk, data.tahun_terbit_kk || null, data.nama_lengkap, data.jenis_kelamin, 
             data.tempat_lahir, data.tanggal_lahir, data.agama, 
             final_pendidikan_id || null, final_pekerjaan_id || null, 
-            data.golongan_darah || null, data.status_perkawinan, data.status_hubungan_keluarga,
+            data.golongan_darah || 'Tidak Diketahui', data.status_perkawinan, data.status_hubungan_keluarga,
             id
         ];
 

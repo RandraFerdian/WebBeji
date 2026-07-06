@@ -21,7 +21,7 @@ const getStatistik = async (req, res) => {
         const [kawinRows] = await pool.query('SELECT status_perkawinan as nama, COUNT(*) as count FROM warga GROUP BY status_perkawinan ORDER BY count DESC');
 
         // Golongan Darah
-        const [darahRows] = await pool.query('SELECT COALESCE(golongan_darah, "Tidak Tahu") as nama, COUNT(*) as count FROM warga GROUP BY golongan_darah ORDER BY count DESC');
+        const [darahRows] = await pool.query('SELECT COALESCE(golongan_darah, "Tidak Diketahui") as nama, COUNT(*) as count FROM warga GROUP BY golongan_darah ORDER BY count DESC');
 
         // Kelompok Umur
         const [[umurRow]] = await pool.query(`
