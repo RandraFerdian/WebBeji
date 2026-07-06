@@ -211,8 +211,8 @@ const Home = () => {
       {!isLoading && perangkat.length > 0 && (
         <section data-aos="fade-up" className="max-w-6xl mx-auto px-4 pt-12 border-t border-gray-100">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">Aparatur Pemerintahan</h2>
-            <p className="text-gray-600">Mengenal lebih dekat struktur pemerintahan Dukuh Beji Kadus 2.</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">Pengurus Dukuh Beji</h2>
+            <p className="text-gray-600">Mengenal lebih dekat struktur pengurus Dukuh Beji.</p>
           </div>
           <div className="flex overflow-x-auto pb-8 snap-x snap-mandatory gap-6 no-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {perangkat.map(p => (
@@ -233,7 +233,7 @@ const Home = () => {
                     
                     {p.nomor_hp && (
                       <a 
-                        href={`https://wa.me/${p.nomor_hp.startsWith('0') ? '62' + p.nomor_hp.substring(1) : p.nomor_hp}?text=Halo%20Bapak/Ibu%20${encodeURIComponent(p.nama)},%20saya%20warga%20Dukuh%20Beji%20ingin%20bertanya...`}
+                        href={`https://wa.me/${p.nomor_hp.startsWith('0') ? '62' + p.nomor_hp.substring(1) : p.nomor_hp}?text=Halo%20Bapak/Ibu%20${encodeURIComponent(p.nama)},%20saya%20melihat%20profil%20Bapak/Ibu%20di%20Website%20Dukuh%20Beji%20dan%20ingin%20bertanya...`}
                         target="_blank"
                         rel="noreferrer"
                         className="mt-auto flex items-center justify-center gap-2 w-full py-2 bg-gray-50 border border-gray-200 text-gray-700 hover:bg-green-50 hover:text-green-600 hover:border-green-200 rounded-lg text-xs md:text-sm font-medium transition-colors"
