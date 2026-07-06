@@ -10,8 +10,8 @@ const getWarga = async (req, res) => {
         const queryParams = [];
 
         if (search) {
-            query += ' WHERE nama_lengkap LIKE ? OR nik LIKE ?';
-            queryParams.push(`%${search}%`, `%${search}%`);
+            query += ' WHERE nama_lengkap LIKE ? OR nik LIKE ? OR no_kk LIKE ?';
+            queryParams.push(`%${search}%`, `%${search}%`, `%${search}%`);
         }
 
         query += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
@@ -23,8 +23,8 @@ const getWarga = async (req, res) => {
         let countQuery = 'SELECT COUNT(*) as total FROM warga';
         const countParams = [];
         if (search) {
-            countQuery += ' WHERE nama_lengkap LIKE ? OR nik LIKE ?';
-            countParams.push(`%${search}%`, `%${search}%`);
+            countQuery += ' WHERE nama_lengkap LIKE ? OR nik LIKE ? OR no_kk LIKE ?';
+            countParams.push(`%${search}%`, `%${search}%`, `%${search}%`);
         }
         const [[{ total }]] = await pool.query(countQuery, countParams);
 

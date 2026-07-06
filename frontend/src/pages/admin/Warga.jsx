@@ -261,7 +261,7 @@ const Warga = () => {
             <input
               type="text"
               className="input-field pl-10"
-              placeholder="Cari NIK atau Nama..."
+              placeholder="Cari NIK, KK, atau Nama..."
               value={searchTerm}
               onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
             />
