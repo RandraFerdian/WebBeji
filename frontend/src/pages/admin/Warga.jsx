@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Plus, Trash2, Edit2, Download, ChevronLeft, ChevronRight, ChevronDown, Users, List } from 'lucide-react';
+import { Search, Plus, Trash2, Edit2, Download, ChevronLeft, ChevronRight, ChevronDown, Users, List, Eye, User } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import LoadingState from '../../components/LoadingState';
 import ErrorState from '../../components/ErrorState';
@@ -31,6 +31,14 @@ const Warga = () => {
       else newSet.add(kk);
       return newSet;
     });
+  };
+
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [selectedWarga, setSelectedWarga] = useState(null);
+
+  const openDetailModal = (warga) => {
+    setSelectedWarga(warga);
+    setIsDetailModalOpen(true);
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -316,16 +324,10 @@ const Warga = () => {
                       <td className="py-4 px-4 text-gray-900">{item.jenis_kelamin}</td>
                       <td className="py-4 px-4 flex gap-2 justify-end">
                         <button 
-                          onClick={() => handleEdit(item)}
-                          className="p-2 text-primary hover:bg-blue-50 rounded-lg transition-colors" title="Edit"
+                          onClick={() => openDetailModal(item)}
+                          className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors flex items-center gap-1.5 text-sm font-medium border border-blue-100" title="Lihat Detail"
                         >
-                          <Edit2 size={18} />
-                        </button>
-                        <button 
-                          onClick={() => handleDelete(item.id)}
-                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Hapus"
-                        >
-                          <Trash2 size={18} />
+                          <Eye size={16} /> Detail
                         </button>
                       </td>
                     </tr>
@@ -366,11 +368,8 @@ const Warga = () => {
                             <td className="py-3 px-4 text-gray-900 font-medium text-sm">{item.nama_lengkap}</td>
                             <td className="py-3 px-4 text-gray-900 text-sm">{item.jenis_kelamin}</td>
                             <td className="py-3 px-4 flex gap-2 justify-end">
-                              <button onClick={() => handleEdit(item)} className="p-1.5 text-primary hover:bg-blue-100 rounded-lg transition-colors" title="Edit">
-                                <Edit2 size={16} />
-                              </button>
-                              <button onClick={() => handleDelete(item.id)} className="p-1.5 text-red-600 hover:bg-red-100 rounded-lg transition-colors" title="Hapus">
-                                <Trash2 size={16} />
+                              <button onClick={() => openDetailModal(item)} className="p-1.5 px-2.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors flex items-center gap-1.5 text-xs font-medium border border-blue-100" title="Lihat Detail">
+                                <Eye size={14} /> Detail
                               </button>
                             </td>
                           </tr>
@@ -552,6 +551,90 @@ const Warga = () => {
             </button>
           </div>
         </form>
+      </Modal>
+
+      <Modal isOpen={isDetailModalOpen} onClose={() => setIsDetailModalOpen(false)} title="Detail Warga">
+        {selectedWarga && (
+          <div className="space-y-6">
+            <div className="flex items-center gap-4 border-b border-gray-100 pb-4">
+              <div className="w-14 h-14 bg-blue-50 border border-blue-100 rounded-full flex items-center justify-center text-blue-600">
+                <User size={28} strokeWidth={1.5} />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-gray-900">{selectedWarga.nama_lengkap}</h3>
+                <p className="text-gray-500 font-medium mt-0.5">NIK: {selectedWarga.nik}</p>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 text-sm">
+              <div>
+                <p className="text-gray-500 mb-1">Nomor Kartu Keluarga (KK)</p>
+                <p className="font-semibold text-gray-900">{selectedWarga.no_kk}</p>
+              </div>
+              <div>
+                <p className="text-gray-500 mb-1">Status Hubungan Keluarga</p>
+                <p className="font-semibold text-gray-900">{selectedWarga.status_hubungan_keluarga}</p>
+              </div>
+              <div>
+                <p className="text-gray-500 mb-1">Jenis Kelamin</p>
+                <p className="font-semibold text-gray-900">{selectedWarga.jenis_kelamin === 'L' ? 'Laki-Laki' : 'Perempuan'}</p>
+              </div>
+              <div>
+                <p className="text-gray-500 mb-1">Tempat, Tanggal Lahir</p>
+                <p className="font-semibold text-gray-900">{selectedWarga.tempat_lahir}, {new Date(selectedWarga.tanggal_lahir).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+              </div>
+              <div>
+                <p className="text-gray-500 mb-1">Agama</p>
+                <p className="font-semibold text-gray-900">{selectedWarga.agama}</p>
+              </div>
+              <div>
+                <p className="text-gray-500 mb-1">Golongan Darah</p>
+                <p className="font-semibold text-gray-900">{selectedWarga.golongan_darah || 'Tidak Diketahui'}</p>
+              </div>
+              <div>
+                <p className="text-gray-500 mb-1">Status Perkawinan</p>
+                <p className="font-semibold text-gray-900">{selectedWarga.status_perkawinan}</p>
+              </div>
+              <div>
+                <p className="text-gray-500 mb-1">Tingkat Pendidikan</p>
+                <p className="font-semibold text-gray-900">
+                  {kategori.pendidikan.find(k => k.id === selectedWarga.pendidikan_id)?.nama || '-'}
+                </p>
+              </div>
+              <div>
+                <p className="text-gray-500 mb-1">Pekerjaan Utama</p>
+                <p className="font-semibold text-gray-900">
+                  {kategori.pekerjaan.find(k => k.id === selectedWarga.pekerjaan_id)?.nama || '-'}
+                </p>
+              </div>
+              <div>
+                <p className="text-gray-500 mb-1">Tahun Terbit KK</p>
+                <p className="font-semibold text-gray-900">{selectedWarga.tahun_terbit_kk || '-'}</p>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3 mt-8 pt-4 border-t border-gray-100">
+              <button 
+                onClick={() => {
+                  setIsDetailModalOpen(false);
+                  handleDelete(selectedWarga.id);
+                }}
+                className="btn-secondary !text-red-600 !border-red-200 hover:!bg-red-50 flex items-center gap-2"
+              >
+                <Trash2 size={16} /> Hapus Warga
+              </button>
+              <button 
+                onClick={() => {
+                  setIsDetailModalOpen(false);
+                  handleEdit(selectedWarga);
+                }}
+                className="btn-primary flex items-center gap-2"
+              >
+                <Edit2 size={16} /> Ubah Data
+              </button>
+            </div>
+          </div>
+        )}
       </Modal>
     </div>
   );
