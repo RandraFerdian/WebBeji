@@ -216,8 +216,8 @@ const Home = () => {
           </div>
           <div className="flex overflow-x-auto pb-8 snap-x snap-mandatory gap-6 no-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {perangkat.map(p => (
-              <div key={p.id} className="min-w-[180px] md:min-w-[200px] flex-shrink-0 snap-center">
-                <div className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
+              <div key={p.id} className="min-w-[180px] md:min-w-[200px] flex-shrink-0 snap-center flex">
+                <div className="w-full bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col">
                   <div className="h-48 md:h-56 bg-gray-100 relative overflow-hidden flex items-center justify-center border-b border-gray-50">
                     {p.foto_url ? (
                       <img src={p.foto_url} alt={p.nama} className="w-full h-full object-cover object-top" />
@@ -228,7 +228,7 @@ const Home = () => {
                     )}
                   </div>
                   <div className="p-4 md:p-5 text-center flex flex-col flex-grow">
-                    <h3 className="font-bold text-gray-900 line-clamp-1">{p.nama}</h3>
+                    <h3 className="font-bold text-gray-900 truncate" title={p.nama}>{p.nama}</h3>
                     <p className="text-xs text-primary font-medium mt-1 mb-4">{p.jabatan}</p>
                     
                     {p.nomor_hp && (
