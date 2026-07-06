@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Search, Plus, Trash2, Edit2, Download, ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Search, Plus, Trash2, Edit2, Download, ChevronLeft, ChevronRight, ChevronDown, Users, List } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import LoadingState from '../../components/LoadingState';
 import ErrorState from '../../components/ErrorState';
@@ -18,9 +18,20 @@ const Warga = () => {
 
   const [kategori, setKategori] = useState({ pendidikan: [], pekerjaan: [] });
   
-  // Pagination State
+  // View & Pagination State
+  const [viewMode, setViewMode] = useState('list');
+  const [expandedKK, setExpandedKK] = useState(new Set());
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+
+  const toggleExpand = (kk) => {
+    setExpandedKK(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(kk)) newSet.delete(kk);
+      else newSet.add(kk);
+      return newSet;
+    });
+  };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -193,11 +204,26 @@ const Warga = () => {
     XLSX.writeFile(workbook, `Data_Warga_Beji_Kadus_2_${new Date().toISOString().split('T')[0]}.xlsx`);
   };
 
-  // Pagination Logic
+  // Grouping & Pagination Logic
+  let displayData = data;
+  if (viewMode === 'kk') {
+    const groups = {};
+    data.forEach(item => {
+      const kk = item.no_kk || 'Tanpa KK';
+      if (!groups[kk]) groups[kk] = [];
+      groups[kk].push(item);
+    });
+    // Sort logic to place Kepala Keluarga first in each group
+    for (let kk in groups) {
+      groups[kk].sort((a, b) => (a.status_hubungan_keluarga === 'Kepala Keluarga' ? -1 : 1));
+    }
+    displayData = Object.entries(groups).sort((a, b) => a[0].localeCompare(b[0]));
+  }
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const currentItems = displayData.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(displayData.length / itemsPerPage);
 
   const nextPage = () => setCurrentPage(prev => Math.min(prev + 1, totalPages));
   const prevPage = () => setCurrentPage(prev => Math.max(prev - 1, 1));
@@ -232,9 +258,25 @@ const Warga = () => {
               onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
             />
           </div>
-          <button onClick={handleExport} className="btn-secondary flex items-center gap-2">
-            <Download size={18} /> Export Excel
-          </button>
+          <div className="flex gap-2 w-full md:w-auto">
+            <div className="flex bg-gray-100 p-1 rounded-lg border border-gray-200">
+              <button 
+                onClick={() => { setViewMode('list'); setCurrentPage(1); }}
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${viewMode === 'list' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+              >
+                <List size={16} /> List
+              </button>
+              <button 
+                onClick={() => { setViewMode('kk'); setCurrentPage(1); }}
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${viewMode === 'kk' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+              >
+                <Users size={16} /> KK
+              </button>
+            </div>
+            <button onClick={handleExport} className="btn-secondary flex items-center gap-2">
+              <Download size={18} /> Export
+            </button>
+          </div>
         </div>
 
         {isLoading ? (
@@ -248,7 +290,7 @@ const Warga = () => {
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-gray-200">
-                  <th className="py-3 px-4 font-semibold text-gray-600">No. KK</th>
+                  <th className="py-3 px-4 font-semibold text-gray-600">{viewMode === 'list' ? 'No. KK' : 'No. KK / Hubungan'}</th>
                   <th className="py-3 px-4 font-semibold text-gray-600">NIK</th>
                   <th className="py-3 px-4 font-semibold text-gray-600">Nama Lengkap</th>
                   <th className="py-3 px-4 font-semibold text-gray-600">L/P</th>
@@ -256,37 +298,87 @@ const Warga = () => {
                 </tr>
               </thead>
               <tbody>
-                {currentItems.map((item) => (
-                  <tr key={item.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-                    <td className="py-4 px-4 text-gray-900">
-                      <div className="flex flex-col gap-1">
-                        <span>{item.no_kk}</span>
-                        {item.perlu_update_kk === 1 && (
-                          <span className="bg-yellow-100 text-yellow-800 text-[10px] px-2 py-0.5 rounded-full font-medium w-fit border border-yellow-200" title="Usia KK sudah >= 5 Tahun, disarankan update">
-                            ⚠️ Memerlukan Pembaruan KK
-                          </span>
-                        )}
-                      </div>
-                    </td>
-                    <td className="py-4 px-4 text-gray-900">{item.nik}</td>
-                    <td className="py-4 px-4 text-gray-900 font-medium">{item.nama_lengkap}</td>
-                    <td className="py-4 px-4 text-gray-900">{item.jenis_kelamin}</td>
-                    <td className="py-4 px-4 flex gap-2 justify-end">
-                      <button 
-                        onClick={() => handleEdit(item)}
-                        className="p-2 text-primary hover:bg-blue-50 rounded-lg transition-colors" title="Edit"
-                      >
-                        <Edit2 size={18} />
-                      </button>
-                      <button 
-                        onClick={() => handleDelete(item.id)}
-                        className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Hapus"
-                      >
-                        <Trash2 size={18} />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {viewMode === 'list' ? (
+                  currentItems.map((item) => (
+                    <tr key={item.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                      <td className="py-4 px-4 text-gray-900">
+                        <div className="flex flex-col gap-1">
+                          <span>{item.no_kk}</span>
+                          {item.perlu_update_kk === 1 && (
+                            <span className="bg-yellow-100 text-yellow-800 text-[10px] px-2 py-0.5 rounded-full font-medium w-fit border border-yellow-200" title="Usia KK sudah >= 5 Tahun, disarankan update">
+                              ⚠️ Memerlukan Pembaruan KK
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                      <td className="py-4 px-4 text-gray-900">{item.nik}</td>
+                      <td className="py-4 px-4 text-gray-900 font-medium">{item.nama_lengkap}</td>
+                      <td className="py-4 px-4 text-gray-900">{item.jenis_kelamin}</td>
+                      <td className="py-4 px-4 flex gap-2 justify-end">
+                        <button 
+                          onClick={() => handleEdit(item)}
+                          className="p-2 text-primary hover:bg-blue-50 rounded-lg transition-colors" title="Edit"
+                        >
+                          <Edit2 size={18} />
+                        </button>
+                        <button 
+                          onClick={() => handleDelete(item.id)}
+                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Hapus"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  currentItems.map(([kk, members]) => {
+                    const kepala = members.find(m => m.status_hubungan_keluarga === 'Kepala Keluarga') || members[0];
+                    const isExpanded = expandedKK.has(kk);
+                    const needsUpdate = members.some(m => m.perlu_update_kk === 1);
+                    return (
+                      <React.Fragment key={kk}>
+                        <tr className="border-b border-gray-200 bg-gray-50 hover:bg-gray-100 cursor-pointer" onClick={() => toggleExpand(kk)}>
+                          <td className="py-3 px-4 font-bold text-primary flex items-start gap-2">
+                             <div className="mt-1">{isExpanded ? <ChevronDown size={18}/> : <ChevronRight size={18}/>}</div>
+                             <div className="flex flex-col gap-1">
+                               <span>{kk}</span>
+                               {needsUpdate && (
+                                 <span className="bg-yellow-100 text-yellow-800 text-[10px] px-2 py-0.5 rounded-full font-medium w-fit border border-yellow-200">
+                                   ⚠️ Memerlukan Pembaruan KK
+                                 </span>
+                               )}
+                             </div>
+                          </td>
+                          <td className="py-3 px-4 text-gray-600 font-medium text-sm">{members.length} Anggota</td>
+                          <td className="py-3 px-4 font-medium text-gray-900 text-sm">
+                             Kepala: {kepala?.nama_lengkap || '-'}
+                          </td>
+                          <td className="py-3 px-4"></td>
+                          <td className="py-3 px-4"></td>
+                        </tr>
+                        {isExpanded && members.map((item) => (
+                          <tr key={item.id} className="border-b border-gray-100 hover:bg-blue-50 transition-colors bg-white">
+                            <td className="py-3 px-4 pl-10 text-gray-500 text-sm flex items-center gap-2">
+                               <div className="w-1.5 h-1.5 rounded-full bg-gray-300"></div>
+                               {item.status_hubungan_keluarga}
+                            </td>
+                            <td className="py-3 px-4 text-gray-900 text-sm">{item.nik}</td>
+                            <td className="py-3 px-4 text-gray-900 font-medium text-sm">{item.nama_lengkap}</td>
+                            <td className="py-3 px-4 text-gray-900 text-sm">{item.jenis_kelamin}</td>
+                            <td className="py-3 px-4 flex gap-2 justify-end">
+                              <button onClick={() => handleEdit(item)} className="p-1.5 text-primary hover:bg-blue-100 rounded-lg transition-colors" title="Edit">
+                                <Edit2 size={16} />
+                              </button>
+                              <button onClick={() => handleDelete(item.id)} className="p-1.5 text-red-600 hover:bg-red-100 rounded-lg transition-colors" title="Hapus">
+                                <Trash2 size={16} />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </React.Fragment>
+                    );
+                  })
+                )}
               </tbody>
             </table>
             
@@ -296,8 +388,8 @@ const Warga = () => {
                 <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
                   <div>
                     <p className="text-sm text-gray-700">
-                      Menampilkan <span className="font-medium">{indexOfFirstItem + 1}</span> hingga <span className="font-medium">{Math.min(indexOfLastItem, data.length)}</span> dari{' '}
-                      <span className="font-medium">{data.length}</span> data
+                      Menampilkan <span className="font-medium">{indexOfFirstItem + 1}</span> hingga <span className="font-medium">{Math.min(indexOfLastItem, displayData.length)}</span> dari{' '}
+                      <span className="font-medium">{displayData.length}</span> {viewMode === 'kk' ? 'Keluarga' : 'data'}
                     </p>
                   </div>
                   <div>
