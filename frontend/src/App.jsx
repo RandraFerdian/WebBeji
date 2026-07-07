@@ -10,12 +10,15 @@ import UmkmDetail from './pages/UmkmDetail';
 import Peta from './pages/Peta';
 import Berita from './pages/Berita';
 import BeritaDetail from './pages/BeritaDetail';
+import Sarpras from './pages/Sarpras';
+import SarprasDetail from './pages/SarprasDetail';
 import Login from './pages/Login';
 import AdminLayout from './pages/admin/AdminLayout';
 import Dashboard from './pages/admin/Dashboard';
 import Warga from './pages/admin/Warga';
 import UmkmAdmin from './pages/admin/UmkmAdmin';
 import BeritaAdmin from './pages/admin/BeritaAdmin';
+import SarprasAdmin from './pages/admin/SarprasAdmin';
 import PetaAdmin from './pages/admin/PetaAdmin';
 import PerangkatAdmin from './pages/admin/PerangkatAdmin';
 import PengaturanAdmin from './pages/admin/PengaturanAdmin';
@@ -46,6 +49,8 @@ function App() {
               <Route path="/statistik" element={<Statistik />} />
               <Route path="/umkm" element={<UMKM />} />
               <Route path="/umkm/:id" element={<UmkmDetail />} />
+              <Route path="/sarpras" element={<Sarpras />} />
+              <Route path="/sarpras/:id" element={<SarprasDetail />} />
               <Route path="/peta" element={<Peta />} />
               <Route path="/berita" element={<Berita />} />
               <Route path="/berita/:slug" element={<BeritaDetail />} />
@@ -57,6 +62,7 @@ function App() {
                 <Route path="warga" element={<Warga />} />
                 <Route path="umkm" element={<UmkmAdmin />} />
                 <Route path="berita" element={<BeritaAdmin />} />
+                <Route path="sarpras" element={<SarprasAdmin />} />
                 <Route path="peta" element={<PetaAdmin />} />
                 <Route path="perangkat" element={<PerangkatAdmin />} />
                 <Route path="profil-desa" element={<PengaturanAdmin />} />

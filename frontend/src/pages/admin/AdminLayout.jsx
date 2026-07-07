@@ -30,6 +30,7 @@ const AdminLayout = () => {
     { name: 'Data Warga', path: '/admin/warga', icon: <Users size={20} /> },
     { name: 'Data UMKM', path: '/admin/umkm', icon: <ShoppingBag size={20} /> },
     { name: 'Profil Desa', path: '/admin/profil-desa', icon: <FileText size={20} /> },
+    { name: 'Sarana & Prasarana', path: '/admin/sarpras', icon: <FileText size={20} /> },
     { name: 'Berita', path: '/admin/berita', icon: <FileText size={20} /> },
     { name: 'Peta', path: '/admin/peta', icon: <MapIcon size={20} /> },
     { name: 'Perangkat Desa', path: '/admin/perangkat', icon: <Users size={20} /> },

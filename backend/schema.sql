@@ -97,3 +97,21 @@ CREATE INDEX idx_berita_slug ON berita(slug);
 CREATE INDEX idx_berita_status ON berita(status);
 CREATE INDEX idx_umkm_status ON umkm(status);
 CREATE INDEX idx_log_admin_id ON log_aktivitas(admin_id);
+
+CREATE TABLE IF NOT EXISTS sarpras (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nama VARCHAR(150) NOT NULL,
+    deskripsi_singkat VARCHAR(255) NOT NULL,
+    deskripsi_detail TEXT NOT NULL,
+    cover_url VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS foto_sarpras (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    sarpras_id INT,
+    url VARCHAR(255) NOT NULL,
+    caption VARCHAR(100),
+    urutan SMALLINT DEFAULT 1,
+    FOREIGN KEY (sarpras_id) REFERENCES sarpras(id) ON DELETE CASCADE
+);

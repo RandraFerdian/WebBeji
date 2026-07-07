@@ -45,6 +45,7 @@ app.get('/api/health', (req, res) => {
 const authRoutes = require('./routes/auth');
 const wargaRoutes = require('./routes/warga');
 const umkmRoutes = require('./routes/umkm');
+const sarprasRoutes = require('./routes/sarprasRoutes');
 const beritaRoutes = require('./routes/berita');
 const petaRoutes = require('./routes/peta');
 const perangkatRoutes = require('./routes/perangkat');
@@ -58,6 +59,7 @@ const adminManajemenRoutes = require('./routes/adminManajemen');
 app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/warga', wargaRoutes);
 app.use('/api/umkm', umkmRoutes);
+app.use('/api/sarpras', sarprasRoutes);
 app.use('/api/berita', beritaRoutes);
 app.use('/api/peta', petaRoutes);
 app.use('/api/perangkat', perangkatRoutes);

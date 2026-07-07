@@ -11,6 +11,7 @@ const Navbar = () => {
     { name: 'Statistik', path: '/statistik' },
     { name: 'Peta', path: '/peta' },
     { name: 'UMKM', path: '/umkm' },
+    { name: 'Sarpras', path: '/sarpras' },
     { name: 'Berita', path: '/berita' },
   ];
 
