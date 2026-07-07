@@ -89,7 +89,7 @@ const Warga = () => {
     setError(false);
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/warga?search=${searchTerm}&limit=10000`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/warga?search=${searchTerm}&limit=10000&viewMode=${viewMode}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (!res.ok) throw new Error('Gagal memuat data warga');
@@ -118,7 +118,7 @@ const Warga = () => {
     fetchData();
     fetchKategori();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchTerm]);
+  }, [searchTerm, viewMode]);
 
   useEffect(() => {
     if (isModalOpen) fetchKategori();

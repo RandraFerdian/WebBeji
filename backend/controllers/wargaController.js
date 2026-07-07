@@ -3,14 +3,18 @@ const pool = require('../db');
 // GET /api/warga
 const getWarga = async (req, res) => {
     try {
-        const { search, page = 1, limit = 10 } = req.query;
+        const { search, page = 1, limit = 10, viewMode } = req.query;
         const offset = (page - 1) * limit;
 
         let query = 'SELECT *, (YEAR(CURDATE()) - tahun_terbit_kk) >= 5 AS perlu_update_kk FROM warga';
         const queryParams = [];
 
         if (search) {
-            query += ' WHERE nama_lengkap LIKE ? OR nik LIKE ? OR no_kk LIKE ?';
+            if (viewMode === 'kk') {
+                query += ' WHERE no_kk IN (SELECT no_kk FROM warga WHERE nama_lengkap LIKE ? OR nik LIKE ? OR no_kk LIKE ?)';
+            } else {
+                query += ' WHERE nama_lengkap LIKE ? OR nik LIKE ? OR no_kk LIKE ?';
+            }
             queryParams.push(`%${search}%`, `%${search}%`, `%${search}%`);
         }
 
@@ -23,7 +27,11 @@ const getWarga = async (req, res) => {
         let countQuery = 'SELECT COUNT(*) as total FROM warga';
         const countParams = [];
         if (search) {
-            countQuery += ' WHERE nama_lengkap LIKE ? OR nik LIKE ? OR no_kk LIKE ?';
+            if (viewMode === 'kk') {
+                countQuery += ' WHERE no_kk IN (SELECT no_kk FROM warga WHERE nama_lengkap LIKE ? OR nik LIKE ? OR no_kk LIKE ?)';
+            } else {
+                countQuery += ' WHERE nama_lengkap LIKE ? OR nik LIKE ? OR no_kk LIKE ?';
+            }
             countParams.push(`%${search}%`, `%${search}%`, `%${search}%`);
         }
         const [[{ total }]] = await pool.query(countQuery, countParams);
