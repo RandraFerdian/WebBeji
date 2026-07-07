@@ -14,6 +14,7 @@ const Warga = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [filterPerluUpdate, setFilterPerluUpdate] = useState(false);
   const { addToast } = useToast();
 
   const [kategori, setKategori] = useState({ pendidikan: [], pekerjaan: [] });
@@ -89,7 +90,7 @@ const Warga = () => {
     setError(false);
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/warga?search=${searchTerm}&limit=10000&viewMode=${viewMode}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/warga?search=${searchTerm}&limit=10000&viewMode=${viewMode}&perluUpdateKK=${filterPerluUpdate}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (!res.ok) throw new Error('Gagal memuat data warga');
@@ -118,7 +119,7 @@ const Warga = () => {
     fetchData();
     fetchKategori();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchTerm, viewMode]);
+  }, [searchTerm, viewMode, filterPerluUpdate]);
 
   useEffect(() => {
     if (isModalOpen) fetchKategori();
@@ -290,7 +291,17 @@ const Warga = () => {
               onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
             />
           </div>
-          <div className="flex gap-2 w-full md:w-auto">
+          <div className="flex gap-2 w-full md:w-auto items-center flex-wrap">
+            <label className="flex items-center gap-2 text-sm text-gray-700 bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors">
+              <input 
+                type="checkbox" 
+                className="rounded border-gray-300 text-primary focus:ring-primary"
+                checked={filterPerluUpdate}
+                onChange={(e) => { setFilterPerluUpdate(e.target.checked); setCurrentPage(1); }}
+              />
+              <span className="hidden sm:inline">⚠️ Perlu Update KK</span>
+              <span className="sm:hidden">⚠️ Update KK</span>
+            </label>
             <div className="flex bg-gray-100 p-1 rounded-lg border border-gray-200">
               <button 
                 onClick={() => { setViewMode('list'); setCurrentPage(1); }}

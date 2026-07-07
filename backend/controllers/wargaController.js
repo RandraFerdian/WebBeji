@@ -3,19 +3,28 @@ const pool = require('../db');
 // GET /api/warga
 const getWarga = async (req, res) => {
     try {
-        const { search, page = 1, limit = 10, viewMode } = req.query;
+        const { search, page = 1, limit = 10, viewMode, perluUpdateKK } = req.query;
         const offset = (page - 1) * limit;
 
         let query = 'SELECT *, (YEAR(CURDATE()) - tahun_terbit_kk) >= 5 AS perlu_update_kk FROM warga';
+        let whereClauses = [];
         const queryParams = [];
 
         if (search) {
             if (viewMode === 'kk') {
-                query += ' WHERE no_kk IN (SELECT no_kk FROM warga WHERE nama_lengkap LIKE ? OR nik LIKE ? OR no_kk LIKE ?)';
+                whereClauses.push('no_kk IN (SELECT no_kk FROM warga WHERE nama_lengkap LIKE ? OR nik LIKE ? OR no_kk LIKE ?)');
             } else {
-                query += ' WHERE nama_lengkap LIKE ? OR nik LIKE ? OR no_kk LIKE ?';
+                whereClauses.push('(nama_lengkap LIKE ? OR nik LIKE ? OR no_kk LIKE ?)');
             }
             queryParams.push(`%${search}%`, `%${search}%`, `%${search}%`);
+        }
+
+        if (perluUpdateKK === 'true') {
+            whereClauses.push('(YEAR(CURDATE()) - tahun_terbit_kk) >= 5');
+        }
+
+        if (whereClauses.length > 0) {
+            query += ' WHERE ' + whereClauses.join(' AND ');
         }
 
         query += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
@@ -25,14 +34,24 @@ const getWarga = async (req, res) => {
 
         // Count total
         let countQuery = 'SELECT COUNT(*) as total FROM warga';
+        let countWhereClauses = [];
         const countParams = [];
+        
         if (search) {
             if (viewMode === 'kk') {
-                countQuery += ' WHERE no_kk IN (SELECT no_kk FROM warga WHERE nama_lengkap LIKE ? OR nik LIKE ? OR no_kk LIKE ?)';
+                countWhereClauses.push('no_kk IN (SELECT no_kk FROM warga WHERE nama_lengkap LIKE ? OR nik LIKE ? OR no_kk LIKE ?)');
             } else {
-                countQuery += ' WHERE nama_lengkap LIKE ? OR nik LIKE ? OR no_kk LIKE ?';
+                countWhereClauses.push('(nama_lengkap LIKE ? OR nik LIKE ? OR no_kk LIKE ?)');
             }
             countParams.push(`%${search}%`, `%${search}%`, `%${search}%`);
+        }
+
+        if (perluUpdateKK === 'true') {
+            countWhereClauses.push('(YEAR(CURDATE()) - tahun_terbit_kk) >= 5');
+        }
+
+        if (countWhereClauses.length > 0) {
+            countQuery += ' WHERE ' + countWhereClauses.join(' AND ');
         }
         const [[{ total }]] = await pool.query(countQuery, countParams);
 
