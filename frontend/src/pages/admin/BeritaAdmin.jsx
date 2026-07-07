@@ -37,7 +37,8 @@ const BeritaAdmin = () => {
     slug: '',
     konten: '',
     thumbnail_url: '',
-    status: 'draft'
+    status: 'draft',
+    published_at: ''
   });
 
   const fetchData = async () => {
@@ -81,7 +82,8 @@ const BeritaAdmin = () => {
       slug: '',
       konten: '',
       thumbnail_url: '',
-      status: 'draft'
+      status: 'draft',
+      published_at: ''
     });
     setIsModalOpen(true);
   };
@@ -89,12 +91,20 @@ const BeritaAdmin = () => {
   const handleEdit = (item) => {
     setIsEdit(true);
     setCurrentId(item.id);
+    
+    let localDateStr = '';
+    if (item.published_at || item.created_at) {
+      const dateObj = new Date(item.published_at || item.created_at);
+      localDateStr = new Date(dateObj.getTime() - (dateObj.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+    }
+
     setFormData({
       judul: item.judul || '',
       slug: item.slug || '',
       konten: item.konten || '',
       thumbnail_url: item.thumbnail_url || '',
-      status: item.status || 'draft'
+      status: item.status || 'draft',
+      published_at: localDateStr
     });
     setIsModalOpen(true);
   };
@@ -236,7 +246,7 @@ const BeritaAdmin = () => {
                     </td>
                     <td className="py-4 px-4 text-gray-900">{item.nama_penulis}</td>
                     <td className="py-4 px-4 text-gray-900">
-                      {new Date(item.created_at).toLocaleDateString('id-ID')}
+                      {new Date(item.published_at || item.created_at).toLocaleDateString('id-ID')}
                     </td>
                     <td className="py-4 px-4 text-center">
                       {item.status === 'published' ? (
@@ -297,6 +307,17 @@ const BeritaAdmin = () => {
                 required 
                 placeholder="gotong-royong-desa"
               />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Tanggal Posting (Opsional)</label>
+              <input 
+                type="date" 
+                name="published_at" 
+                value={formData.published_at} 
+                onChange={handleInputChange} 
+                className="input-field" 
+              />
+              <p className="text-xs text-gray-500 mt-1">Kosongkan untuk menggunakan tanggal hari ini saat diterbitkan.</p>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Foto / Gambar (Opsional)</label>

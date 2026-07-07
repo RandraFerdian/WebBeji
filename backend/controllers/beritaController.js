@@ -81,19 +81,21 @@ const getBeritaBySlug = async (req, res) => {
 // POST /api/berita
 const createBerita = async (req, res) => {
     try {
-        const { judul, slug, konten, thumbnail_url, status } = req.body;
+        const { judul, slug, konten, thumbnail_url, status, published_at } = req.body;
         const admin_id = req.user.id;
 
-        let published_at = null;
-        if (status === 'published') {
-            published_at = new Date();
+        let final_published_at = null;
+        if (published_at) {
+            final_published_at = new Date(published_at);
+        } else if (status === 'published') {
+            final_published_at = new Date();
         }
 
         const query = `
             INSERT INTO berita (admin_id, judul, slug, konten, thumbnail_url, status, published_at) 
             VALUES (?, ?, ?, ?, ?, ?, ?)
         `;
-        const params = [admin_id, judul, slug, konten, thumbnail_url || null, status || 'draft', published_at];
+        const params = [admin_id, judul, slug, konten, thumbnail_url || null, status || 'draft', final_published_at];
 
         const [result] = await pool.query(query, params);
 
@@ -116,7 +118,7 @@ const createBerita = async (req, res) => {
 const updateBerita = async (req, res) => {
     try {
         const { id } = req.params;
-        const { judul, slug, konten, thumbnail_url, status } = req.body;
+        const { judul, slug, konten, thumbnail_url, status, published_at } = req.body;
         
         // Ambil data berita lama untuk mengecek gambar berubah
         const [[oldBerita]] = await pool.query('SELECT thumbnail_url FROM berita WHERE id = ?', [id]);
@@ -127,7 +129,10 @@ const updateBerita = async (req, res) => {
         let updateQuery = 'UPDATE berita SET judul=?, slug=?, konten=?, thumbnail_url=?, status=?';
         const params = [judul, slug, konten, thumbnail_url || null, status];
 
-        if (status === 'published') {
+        if (published_at) {
+            updateQuery += ', published_at=?';
+            params.push(new Date(published_at));
+        } else if (status === 'published') {
             updateQuery += ', published_at=COALESCE(published_at, NOW())';
         }
 
