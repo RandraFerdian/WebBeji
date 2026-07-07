@@ -193,7 +193,9 @@ const Warga = () => {
         'Agama': item.agama,
         'Golongan Darah': item.golongan_darah || 'Tidak Tahu',
         'Status Perkawinan': item.status_perkawinan,
-        'Hubungan Keluarga': item.status_hubungan_keluarga
+        'Hubungan Keluarga': item.status_hubungan_keluarga,
+        'Pendidikan': item.nama_pendidikan || '-',
+        'Pekerjaan': item.nama_pekerjaan || '-'
       };
 
       if (includeSensitive) {

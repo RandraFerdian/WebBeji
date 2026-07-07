@@ -6,7 +6,15 @@ const getWarga = async (req, res) => {
         const { search, page = 1, limit = 10, viewMode, perluUpdateKK } = req.query;
         const offset = (page - 1) * limit;
 
-        let query = 'SELECT *, (YEAR(CURDATE()) - tahun_terbit_kk) >= 5 AS perlu_update_kk FROM warga';
+        let query = `
+            SELECT w.*, 
+                   (YEAR(CURDATE()) - w.tahun_terbit_kk) >= 5 AS perlu_update_kk,
+                   kp.nama AS nama_pendidikan,
+                   kpk.nama AS nama_pekerjaan
+            FROM warga w
+            LEFT JOIN kategori_pendidikan kp ON w.pendidikan_id = kp.id
+            LEFT JOIN kategori_pekerjaan kpk ON w.pekerjaan_id = kpk.id
+        `;
         let whereClauses = [];
         const queryParams = [];
 
@@ -27,7 +35,7 @@ const getWarga = async (req, res) => {
             query += ' WHERE ' + whereClauses.join(' AND ');
         }
 
-        query += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
+        query += ' ORDER BY w.created_at DESC LIMIT ? OFFSET ?';
         queryParams.push(Number(limit), Number(offset));
 
         const [rows] = await pool.query(query, queryParams);
