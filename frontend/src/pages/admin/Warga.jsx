@@ -221,9 +221,33 @@ const Warga = () => {
       if (!groups[kk]) groups[kk] = [];
       groups[kk].push(item);
     });
-    // Sort logic to place Kepala Keluarga first in each group
+    // Hierarchy for standard KK sorting
+    const hierarchy = {
+      'Kepala Keluarga': 1,
+      'Istri': 2,
+      'Anak': 3,
+      'Cucu': 4,
+      'Orang Tua': 5,
+      'Mertua': 6,
+      'Famili Lain': 7,
+      'Lainnya': 8
+    };
+
+    // Sort logic to place members in standard KK order
     for (let kk in groups) {
-      groups[kk].sort((a, b) => (a.status_hubungan_keluarga === 'Kepala Keluarga' ? -1 : 1));
+      groups[kk].sort((a, b) => {
+        const rankA = hierarchy[a.status_hubungan_keluarga] || 99;
+        const rankB = hierarchy[b.status_hubungan_keluarga] || 99;
+        
+        if (rankA !== rankB) {
+          return rankA - rankB;
+        }
+        
+        // If same relationship (e.g. multiple children), sort by date of birth (oldest first)
+        const dateA = new Date(a.tanggal_lahir).getTime();
+        const dateB = new Date(b.tanggal_lahir).getTime();
+        return dateA - dateB;
+      });
     }
     displayData = Object.entries(groups).sort((a, b) => a[0].localeCompare(b[0]));
   }
