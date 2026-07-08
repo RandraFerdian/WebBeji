@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Users, Map as MapIcon, ShoppingBag, ArrowRight, Activity, Newspaper, User, Phone, Target, Flag } from 'lucide-react';
+import { Users, Map as MapIcon, ShoppingBag, ArrowRight, Activity, Newspaper, User, Phone, Target, Flag, LayoutGrid } from 'lucide-react';
 import LoadingState from '../components/LoadingState';
 import CountUp from '../components/CountUp';
 import DOMPurify from 'dompurify';
@@ -8,6 +8,7 @@ import DOMPurify from 'dompurify';
 const Home = () => {
   const [stats, setStats] = useState(null);
   const [latestBerita, setLatestBerita] = useState([]);
+  const [latestSarpras, setLatestSarpras] = useState([]);
   const [perangkat, setPerangkat] = useState([]);
   const [pengaturan, setPengaturan] = useState({ visi: '', misi: '' });
   const [isLoading, setIsLoading] = useState(true);
@@ -15,11 +16,12 @@ const Home = () => {
   useEffect(() => {
     const fetchHomeData = async () => {
       try {
-        const [statsRes, beritaRes, perangkatRes, pengaturanRes] = await Promise.all([
+        const [statsRes, beritaRes, perangkatRes, pengaturanRes, sarprasRes] = await Promise.all([
           fetch(`${import.meta.env.VITE_API_BASE_URL}/statistik`),
           fetch(`${import.meta.env.VITE_API_BASE_URL}/berita?status=published`),
           fetch(`${import.meta.env.VITE_API_BASE_URL}/perangkat`),
-          fetch(`${import.meta.env.VITE_API_BASE_URL}/pengaturan`)
+          fetch(`${import.meta.env.VITE_API_BASE_URL}/pengaturan`),
+          fetch(`${import.meta.env.VITE_API_BASE_URL}/sarpras`)
         ]);
         
         if (statsRes.ok) {
@@ -42,6 +44,11 @@ const Home = () => {
           if (pengaturanJson.success && pengaturanJson.data) {
             setPengaturan(pengaturanJson.data);
           }
+        }
+        
+        if (sarprasRes.ok) {
+          const sarprasJson = await sarprasRes.json();
+          setLatestSarpras((sarprasJson.data || []).slice(0, 3)); // Ambil 3 terbaru
         }
       } catch (error) {
         console.error("Gagal memuat data beranda", error);
@@ -250,7 +257,69 @@ const Home = () => {
         </section>
       )}
 
-      {/* 5. Latest News Section */}
+      {/* 5. Sarana & Prasarana Section */}
+      <section data-aos="fade-up" className="max-w-6xl mx-auto px-4 pt-12 border-t border-gray-100">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
+          <div>
+            <div className="flex items-center gap-3 mb-2">
+              <LayoutGrid className="text-primary" size={24} />
+              <h2 className="text-3xl font-bold text-gray-900">Sarana & Prasarana</h2>
+            </div>
+            <p className="text-gray-600">Infrastruktur dan fasilitas umum yang tersedia di dukuh kami.</p>
+          </div>
+          <Link to="/sarpras" className="btn-secondary flex items-center gap-2">
+            Lihat Semua <ArrowRight size={16} />
+          </Link>
+        </div>
+
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <LoadingState /><LoadingState /><LoadingState />
+          </div>
+        ) : latestSarpras.length === 0 ? (
+          <div className="bg-gray-50 rounded-2xl p-12 text-center text-gray-500 border border-gray-100">
+            Belum ada data sarana prasarana.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {latestSarpras.map((item) => (
+              <Link to={`/sarpras/${item.id}`} key={item.id} className="group flex flex-col h-full bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+                <div className="w-full h-48 bg-gray-100 relative overflow-hidden">
+                  {item.cover_url ? (
+                    <img 
+                      src={item.cover_url} 
+                      alt={item.nama} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                    />
+                  ) : (
+                     <div className="w-full h-full flex items-center justify-center text-gray-400">
+                       <LayoutGrid size={32} />
+                     </div>
+                  )}
+                  <div className="absolute top-4 left-4">
+                    <span className="bg-white/90 backdrop-blur text-primary text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">
+                      Infrastruktur
+                    </span>
+                  </div>
+                </div>
+                <div className="p-6 flex flex-col flex-grow">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors line-clamp-2 leading-tight">
+                    {item.nama}
+                  </h3>
+                  <p className="text-gray-600 line-clamp-3 mb-6 flex-grow text-sm leading-relaxed">
+                    {item.deskripsi_singkat}
+                  </p>
+                  <div className="mt-auto flex items-center text-primary font-semibold text-sm group-hover:gap-2 transition-all">
+                    Lihat Detail <ArrowRight size={14} className="ml-1" />
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* 6. Latest News Section */}
       <section data-aos="fade-up" className="max-w-6xl mx-auto px-4 pt-12 border-t border-gray-100">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
           <div>
