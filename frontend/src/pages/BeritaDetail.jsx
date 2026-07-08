@@ -33,7 +33,8 @@ const BeritaDetail = () => {
   }, [slug]);
 
   const handleShare = async () => {
-    const shareUrl = `${import.meta.env.VITE_API_BASE_URL}/berita/share/${slug}`;
+    // Menggunakan domain frontend yang di-proxy oleh Vercel ke backend
+    const shareUrl = `${window.location.origin}/share/berita/${slug}`;
     
     if (navigator.share) {
       try {

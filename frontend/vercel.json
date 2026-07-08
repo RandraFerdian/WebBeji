@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/share/berita/:slug",
+      "destination": "https://beji-backend-361164671321.us-central1.run.app/api/berita/share/:slug"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
