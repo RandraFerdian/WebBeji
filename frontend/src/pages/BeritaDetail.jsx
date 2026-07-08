@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Calendar, User } from 'lucide-react';
+import { ArrowLeft, Calendar, User, Share2 } from 'lucide-react';
 import LoadingState from '../components/LoadingState';
 import ErrorState from '../components/ErrorState';
 import DOMPurify from 'dompurify';
@@ -10,6 +10,7 @@ const BeritaDetail = () => {
   const [berita, setBerita] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
 
   const fetchBeritaDetail = async () => {
     setIsLoading(true);
@@ -31,11 +32,30 @@ const BeritaDetail = () => {
     window.scrollTo(0, 0);
   }, [slug]);
 
+  const handleShare = async () => {
+    const shareUrl = `${import.meta.env.VITE_API_BASE_URL}/berita/share/${slug}`;
+    
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: berita.judul,
+          url: shareUrl
+        });
+      } catch (err) {
+        console.error('Error sharing:', err);
+      }
+    } else {
+      navigator.clipboard.writeText(shareUrl);
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
+    }
+  };
+
   if (isLoading) return <div className="mt-12"><LoadingState /></div>;
   if (error || !berita) return <div className="mt-12"><ErrorState onRetry={fetchBeritaDetail} /></div>;
 
   return (
-    <article data-aos="fade-up" className="max-w-4xl mx-auto py-8">
+    <article data-aos="fade-up" className="max-w-4xl mx-auto py-8 px-4">
       <Link to="/berita" className="inline-flex items-center text-primary hover:text-primary/80 font-medium mb-8 transition-colors">
         <ArrowLeft size={20} className="mr-2" />
         Kembali ke Portal Berita
@@ -46,19 +66,29 @@ const BeritaDetail = () => {
           {berita.judul}
         </h1>
         
-        <div className="flex flex-wrap items-center gap-6 text-gray-600 mb-8 border-b border-gray-100 pb-8">
-          <div className="flex items-center">
-            <Calendar size={18} className="mr-2 text-primary" />
-            <time>
-              {new Date(berita.published_at || berita.created_at).toLocaleDateString('id-ID', { 
-                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
-              })}
-            </time>
+        <div className="flex flex-wrap items-center justify-between gap-4 text-gray-600 mb-8 border-b border-gray-100 pb-8">
+          <div className="flex flex-wrap items-center gap-6">
+            <div className="flex items-center">
+              <Calendar size={18} className="mr-2 text-primary" />
+              <time>
+                {new Date(berita.published_at || berita.created_at).toLocaleDateString('id-ID', { 
+                  weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+                })}
+              </time>
+            </div>
+            <div className="flex items-center">
+              <User size={18} className="mr-2 text-primary" />
+              <span>{berita.nama_penulis || 'Admin Desa'}</span>
+            </div>
           </div>
-          <div className="flex items-center">
-            <User size={18} className="mr-2 text-primary" />
-            <span>{berita.nama_penulis || 'Admin Desa'}</span>
-          </div>
+          
+          <button 
+            onClick={handleShare}
+            className="flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-lg transition-colors border border-gray-200"
+          >
+            <Share2 size={18} />
+            <span className="font-medium">{isCopied ? 'Tersalin!' : 'Bagikan'}</span>
+          </button>
         </div>
       </header>
 

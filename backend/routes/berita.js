@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const { authenticateToken } = require('../middleware/auth');
-const { getBerita, getBeritaBySlug, createBerita, updateBerita, deleteBerita } = require('../controllers/beritaController');
+const { getBerita, getBeritaBySlug, createBerita, updateBerita, deleteBerita, shareBerita } = require('../controllers/beritaController');
 
 // Public endpoints
 router.get('/', getBerita); // Frontend will pass ?status=published for public view
+router.get('/share/:slug', shareBerita); // Must be before /:slug
 router.get('/:slug', getBeritaBySlug);
 
 // Protected endpoints

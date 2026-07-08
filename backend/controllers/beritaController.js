@@ -204,4 +204,62 @@ const deleteBerita = async (req, res) => {
     }
 };
 
-module.exports = { getBerita, getBeritaBySlug, createBerita, updateBerita, deleteBerita };
+// GET /api/berita/share/:slug
+const shareBerita = async (req, res) => {
+    try {
+        const { slug } = req.params;
+        const [rows] = await pool.query('SELECT judul, konten, thumbnail_url FROM berita WHERE slug = ?', [slug]);
+        
+        if (rows.length === 0) {
+            return res.status(404).send('Berita tidak ditemukan');
+        }
+
+        const berita = rows[0];
+        // Pastikan URL Frontend diset di Environment Variables, default fallback ke root domain atau localhost
+        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+        const targetUrl = `${frontendUrl}/berita/${slug}`;
+        
+        // Buat deskripsi singkat (hilangkan tag HTML)
+        const plainText = berita.konten.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').substring(0, 150) + '...';
+
+        const html = `
+        <!DOCTYPE html>
+        <html lang="id">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>${berita.judul}</title>
+            <meta name="description" content="${plainText}">
+            
+            <!-- Open Graph / Facebook / WhatsApp -->
+            <meta property="og:type" content="article">
+            <meta property="og:title" content="${berita.judul}">
+            <meta property="og:description" content="${plainText}">
+            <meta property="og:image" content="${berita.thumbnail_url || 'https://via.placeholder.com/1200x630.png?text=Berita+Desa'}">
+            <meta property="og:url" content="${targetUrl}">
+            
+            <!-- Twitter -->
+            <meta name="twitter:card" content="summary_large_image">
+            <meta name="twitter:title" content="${berita.judul}">
+            <meta name="twitter:description" content="${plainText}">
+            <meta name="twitter:image" content="${berita.thumbnail_url || 'https://via.placeholder.com/1200x630.png?text=Berita+Desa'}">
+
+            <script>
+                // Redirect user automatically
+                window.location.replace("${targetUrl}");
+            </script>
+        </head>
+        <body>
+            <p>Mengarahkan ke halaman berita, klik <a href="${targetUrl}">di sini</a> jika tidak otomatis.</p>
+        </body>
+        </html>
+        `;
+
+        res.send(html);
+    } catch (error) {
+        console.error('Error in shareBerita:', error);
+        res.status(500).send('Terjadi kesalahan peladen');
+    }
+};
+
+module.exports = { getBerita, getBeritaBySlug, createBerita, updateBerita, deleteBerita, shareBerita };
