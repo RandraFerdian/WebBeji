@@ -17,11 +17,6 @@ const Footer = () => {
           </div>
 
           <div className="flex flex-col items-center md:items-end text-sm bg-blue-900/40 p-5 rounded-2xl border border-blue-800/50 backdrop-blur-sm">
-            <div className="flex items-center gap-1.5 text-blue-200 mb-3">
-              <span>Dikembangkan dengan</span>
-              <Heart size={16} className="text-red-400 fill-red-400 animate-pulse" />
-              <span>oleh</span>
-            </div>
             <div className="flex flex-col items-center md:items-end gap-2">
               <div className="flex items-center gap-3">
                 <img src="/logo_kkn.svg" alt="Logo KKN" className="w-8 h-8 object-contain" />
