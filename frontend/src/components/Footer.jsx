@@ -12,7 +12,7 @@ const Footer = () => {
               <span className="text-2xl font-bold text-white tracking-tight">Dukuh Beji</span>
             </div>
             <p className="text-sm text-blue-200/80 text-center md:text-left max-w-sm leading-relaxed">
-              Platform layanan informasi digital terpadu untuk warga Dusun Beji Kadus 2, Desa Ngawen, Klaten.
+              Platform layanan informasi digital terpadu untuk warga Dukuh Beji Kadus 2, Kalitengah, Wedi, Klaten.
             </p>
           </div>
 
