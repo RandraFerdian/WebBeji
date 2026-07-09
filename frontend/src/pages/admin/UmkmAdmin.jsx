@@ -56,7 +56,7 @@ const UmkmAdmin = () => {
   const fetchWargaOptions = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/warga?search=`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/warga?search=&limit=10000`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const json = await res.json();
