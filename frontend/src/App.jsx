@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import Home from './pages/Home';
 import Statistik from './pages/Statistik';
 import UMKM from './pages/UMKM';
@@ -72,6 +73,7 @@ function App() {
             </Routes>
           </div>
         </main>
+        <Footer />
       </div>
     </Router>
     </ToastProvider>
