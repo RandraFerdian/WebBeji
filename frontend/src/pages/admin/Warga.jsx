@@ -421,8 +421,8 @@ const Warga = () => {
             {/* Pagination Controls */}
             {totalPages > 1 && (
               <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 mt-4 rounded-lg">
-                <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-                  <div>
+                <div className="flex flex-col sm:flex-row flex-1 items-center justify-between gap-4 sm:gap-0">
+                  <div className="text-center sm:text-left">
                     <p className="text-sm text-gray-700">
                       Menampilkan <span className="font-medium">{indexOfFirstItem + 1}</span> hingga <span className="font-medium">{Math.min(indexOfLastItem, displayData.length)}</span> dari{' '}
                       <span className="font-medium">{displayData.length}</span> {viewMode === 'kk' ? 'Keluarga' : 'data'}
