@@ -65,8 +65,8 @@ const AdminLayout = () => {
 
       {/* Sidebar */}
       <aside 
-        className={`fixed md:static inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-200 flex flex-col transform transition-transform duration-300 ease-in-out
-        ${isMobileMenuOpen ? 'translate-x-0 mt-[60px] md:mt-0' : '-translate-x-full md:translate-x-0'}
+        className={`fixed md:static inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-200 flex flex-col transform transition-transform duration-300 ease-in-out pt-[60px] md:pt-0
+        ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
       `}
       >
         <div className="hidden md:block p-6 border-b border-gray-100">
@@ -108,8 +108,8 @@ const AdminLayout = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto overflow-x-hidden bg-gray-50/50 p-4 md:p-8 mt-[60px] md:mt-0">
-        <div className="max-w-7xl mx-auto pb-24 md:pb-0">
+      <main className="flex-1 overflow-y-auto overflow-x-hidden bg-gray-50/50 p-4 md:p-8">
+        <div className="max-w-7xl mx-auto pb-8 md:pb-0">
           <Outlet />
         </div>
       </main>
