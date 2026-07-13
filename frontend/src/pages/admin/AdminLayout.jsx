@@ -33,7 +33,7 @@ const AdminLayout = () => {
     { name: 'Sarana & Prasarana', path: '/admin/sarpras', icon: <FileText size={20} /> },
     { name: 'Berita', path: '/admin/berita', icon: <FileText size={20} /> },
     { name: 'Peta', path: '/admin/peta', icon: <MapIcon size={20} /> },
-    { name: 'Perangkat Desa', path: '/admin/perangkat', icon: <Users size={20} /> },
+    { name: 'Pengurus Dukuh', path: '/admin/perangkat', icon: <Users size={20} /> },
     { name: 'Log Aktivitas', path: '/admin/log', icon: <Activity size={20} /> },
     { name: 'Manajemen Admin', path: '/admin/manajemen-admin', icon: <Users size={20} /> },
   ];
