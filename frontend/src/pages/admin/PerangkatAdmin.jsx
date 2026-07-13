@@ -125,12 +125,12 @@ const PerangkatAdmin = () => {
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Aparatur Desa</h1>
-          <p className="text-gray-600">Kelola profil struktur organisasi pemerintah Dukuh Beji.</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Pengurus Dukuh Beji</h1>
+          <p className="text-gray-600">Kelola profil struktur Pengurus Dukuh Beji.</p>
         </div>
         <button onClick={openAddModal} className="btn-primary flex items-center gap-2">
           <Plus size={18} />
-          Tambah Aparatur
+          Tambah Pengurus
         </button>
       </div>
 

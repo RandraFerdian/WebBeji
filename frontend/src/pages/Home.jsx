@@ -75,11 +75,11 @@ const Home = () => {
           
           <h1 data-aos="fade-up" data-aos-delay="200" className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900 mb-6 leading-tight">
             Selamat Datang di <br />
-            <span className="text-primary">Dukuh Beji Kadus 2</span>
+            <span className="text-primary">RW 16 Dukuh Beji</span>
           </h1>
           
           <p data-aos="fade-up" data-aos-delay="300" className="text-lg text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Menyajikan transparansi data kependudukan, peta wilayah dukuh yang interaktif, serta mendukung penuh pemberdayaan ekonomi UMKM lokal.
+            Menyajikan transparansi data kependudukan, peta wilayah dukuh, serta mendukung penuh pemberdayaan ekonomi UMKM lokal.
           </p>
           
           <div data-aos="fade-up" data-aos-delay="400" className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -263,9 +263,9 @@ const Home = () => {
           <div>
             <div className="flex items-center gap-3 mb-2">
               <LayoutGrid className="text-primary" size={24} />
-              <h2 className="text-3xl font-bold text-gray-900">Sarana & Prasarana</h2>
+              <h2 className="text-3xl font-bold text-gray-900">Fasilitas Umum</h2>
             </div>
-            <p className="text-gray-600">Infrastruktur dan fasilitas umum yang tersedia di dukuh kami.</p>
+            <p className="text-gray-600">Infrastruktur dan fasilitas umum yang tersedia di RW 16 Dukuh Beji.</p>
           </div>
           <Link to="/sarpras" className="btn-secondary flex items-center gap-2">
             Lihat Semua <ArrowRight size={16} />
@@ -278,7 +278,7 @@ const Home = () => {
           </div>
         ) : latestSarpras.length === 0 ? (
           <div className="bg-gray-50 rounded-2xl p-12 text-center text-gray-500 border border-gray-100">
-            Belum ada data sarana prasarana.
+            Belum ada data fasilitas umum.
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -327,7 +327,7 @@ const Home = () => {
               <Newspaper className="text-primary" size={24} />
               <h2 className="text-3xl font-bold text-gray-900">Kabar Terbaru</h2>
             </div>
-            <p className="text-gray-600">Berita dan pengumuman terkini seputar Dukuh Beji Kadus 2.</p>
+            <p className="text-gray-600">Berita dan pengumuman terkini seputar RW 16 Dukuh Beji.</p>
           </div>
           <Link to="/berita" className="btn-secondary flex items-center gap-2">
             Lihat Semua Berita <ArrowRight size={16} />
